@@ -7,7 +7,7 @@ library(jsonlite)
 library(Rfast)
 
 # Function 1: Cleaner. Needed because data will likely be subset, no need to repeat code
-Cleaner = function(df){
+CleanerSeattle = function(df){
   # Recode Event Number and Offense Number to factor
   df$CAD.Event.Number = as.factor(df$CAD.Event.Number)
   df$General.Offense.Number = as.factor(df$General.Offense.Number)
@@ -20,9 +20,49 @@ Cleaner = function(df){
 
 range(Seattle$At.Scene.Time)
 
-Seattle = read.csv("Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
+Seattle = read.csv("~/GitHub/Case-Study-2/Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
+Cincinnati = read.csv("~/GitHub/Case-Study-2/PDI_Police_Calls_For_Service__CAD_.csv", as.is = TRUE, strip.white = TRUE)
 
-# These are the subsets so that the data can be stored in github, had a 100MB limit
+names(Cincinnati)
+
+View(head(Cincinnati))
+dim(Cincinnati)
+
+# Subsets to work with if doing Cincinnati stuff
+Cincinnati1 = Cincinnati[1:(0.2*length(Cincinnati$ADDRESS_X)),]
+Cincinnati2 = Cincinnati[(0.2*length(Cincinnati$ADDRESS_X)): (0.4*length(Cincinnati$ADDRESS_X)),]
+Cincinnati3 = Cincinnati[(0.4*length(Cincinnati$ADDRESS_X)): (0.6*length(Cincinnati$ADDRESS_X)),]
+Cincinnati4 = Cincinnati[(0.6*length(Cincinnati$ADDRESS_X)): (0.8*length(Cincinnati$ADDRESS_X)),]
+Cincinnati5 = Cincinnati[(0.8*length(Cincinnati$ADDRESS_X)): (    length(Cincinnati$ADDRESS_X)),]
+
+# Check types of the variables in reduced data sets and what we have
+str(Cincinnati1)
+
+# Create a Cincinnati cleaner
+CleanerCin = function(df){
+  # Time conversions
+  df$CREATE_TIME_INCIDENT = as.POSIXct(strptime(df$CREATE_TIME_INCIDENT, format = "%m/%d/%Y %H:%M:%S"))
+  df$ARRIVAL_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$ARRIVAL_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
+  df$CLOSED_TIME_INCIDENT = as.POSIXct(strptime(df$CLOSED_TIME_INCIDENT, format = "%m/%d/%Y %H:%M:%S"))
+  df$DISPATCH_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$DISPATCH_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
+  return(df)
+}
+# Add any further cleaning operations to the generic cleaner above for consistency
+
+# Exploring Cincinnati1
+Cincinnati1 = CleanerCin(Cincinnati1)
+
+
+
+
+
+
+
+
+
+
+################################ SEATTLE BORDER ##########################################
+# Subsets to work with if doing Seattle stuff
 # Seattle1 = Seattle[1:(0.2*length(Seattle$CAD.CDW.ID)),]
 # Seattle2 = Seattle[(0.2*length(Seattle$CAD.CDW.ID)+1): (0.4*length(Seattle$CAD.CDW.ID)),]
 # Seattle3 = Seattle[(0.4*length(Seattle$CAD.CDW.ID)+1): (0.6*length(Seattle$CAD.CDW.ID)),]
