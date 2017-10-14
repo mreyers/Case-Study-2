@@ -5,6 +5,7 @@
 library(RCurl)
 library(jsonlite)
 library(Rfast)
+library(ggmap)
 
 # Function 1: Cleaner. Needed because data will likely be subset, no need to repeat code
 CleanerSeattle = function(df){
@@ -35,6 +36,7 @@ Cincinnati3 = Cincinnati[(0.4*length(Cincinnati$ADDRESS_X)): (0.6*length(Cincinn
 Cincinnati4 = Cincinnati[(0.6*length(Cincinnati$ADDRESS_X)): (0.8*length(Cincinnati$ADDRESS_X)),]
 Cincinnati5 = Cincinnati[(0.8*length(Cincinnati$ADDRESS_X)): (    length(Cincinnati$ADDRESS_X)),]
 
+
 # Check types of the variables in reduced data sets and what we have
 str(Cincinnati1)
 
@@ -45,12 +47,29 @@ CleanerCin = function(df){
   df$ARRIVAL_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$ARRIVAL_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
   df$CLOSED_TIME_INCIDENT = as.POSIXct(strptime(df$CLOSED_TIME_INCIDENT, format = "%m/%d/%Y %H:%M:%S"))
   df$DISPATCH_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$DISPATCH_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
-  return(df)
+
+  # Sort out data with longitude and latitude, make sure to return two data frames as a list
+  subsetRows = !is.na(df$LONGITUDE_X) & !is.na(df$LATITUDE_X)
+  address = df[ subsetRows,]
+  noAddress=df[!subsetRows,]
+  
+  return(list(address, noAddress))
 }
 # Add any further cleaning operations to the generic cleaner above for consistency
 
 # Exploring Cincinnati1
 Cincinnati1 = CleanerCin(Cincinnati1)
+CinAddress = Cincinnati1[[1]]
+CinNoAdd   = Cincinnati1[[2]]
+
+# Google maps image for the data with addresses
+map = get_googlemap('cincinnati', scale = 2)
+CinMap = ggmap(map, extent = "device", legend = "none")
+CinMapWithCrime = CinMap + geom_point(data = CinAddress, aes(x = LONGITUDE_X, y = LATITUDE_X))
+CinMapWithCrime
+
+head(CinAddress$INCIDENT_TYPE_ID)
+x = 1
 
 
 
