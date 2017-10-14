@@ -63,10 +63,13 @@ CinAddress = Cincinnati1[[1]]
 CinNoAdd   = Cincinnati1[[2]]
 
 # Google maps image for the data with addresses
-map = get_googlemap('cincinnati', scale = 2)
+map = get_googlemap('cincinnati', scale = 2, zoom = 14)
 CinMap = ggmap(map, extent = "device", legend = "none")
-CinMapWithCrime = CinMap + geom_point(data = CinAddress, aes(x = LONGITUDE_X, y = LATITUDE_X))
-CinMapWithCrime
+CinMapWithCrimePoints = CinMap + geom_point(data = CinAddress, aes(x = LONGITUDE_X, y = LATITUDE_X))
+CinMapWithCrimePoints
+CinMapWithCrimeLevels = CinMap + stat_density2d(aes(x = LONGITUDE_X, y = LATITUDE_X, fill = ..level.., alpha = ..level..),
+size = 2, bins = 4, geom = "polygon", data = CinAddress)
+CinMapWithCrimeLevels
 
 head(CinAddress$INCIDENT_TYPE_ID)
 x = 1
