@@ -7,26 +7,7 @@ library(jsonlite)
 library(Rfast)
 library(ggmap)
 
-# Function 1: Cleaner. Needed because data will likely be subset, no need to repeat code
-CleanerSeattle = function(df){
-  # Recode Event Number and Offense Number to factor
-  df$CAD.Event.Number = as.factor(df$CAD.Event.Number)
-  df$General.Offense.Number = as.factor(df$General.Offense.Number)
-  
-  # Convert date time character variables into actual date-times
-  df$Event.Clearance.Date = as.POSIXct(strptime(df$Event.Clearance.Date, format = "%m/%d/%Y %H:%M:%S"))
-  df$At.Scene.Time        = as.POSIXct(strptime(df$At.Scene.Time, format = "%m/%d/%Y %H:%M:%S"))
-  
-  return(df)
-}
-
-
-Seattle = read.csv("~/GitHub/Case-Study-2/Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
 Cincinnati = read.csv("~/GitHub/Case-Study-2/PDI_Police_Calls_For_Service__CAD_.csv", as.is = TRUE, strip.white = TRUE)
-
-Seattle = CleanerSeattle(Seattle)
-
-clean = CleanerSeattle(Seattle)
 View(head(Cincinnati))
 dim(Cincinnati)
 
@@ -85,17 +66,42 @@ x = 1
 
 
 ################################ SEATTLE BORDER ##########################################
-# Subsets to work with if doing Seattle stuff
+
+# Function 1: Cleaner. Needed because data will likely be subset, no need to repeat code
+CleanerSeattle = function(df){
+  # Recode Event Number and Offense Number to factor
+  df$CAD.Event.Number = as.factor(df$CAD.Event.Number)
+  df$General.Offense.Number = as.factor(df$General.Offense.Number)
+  
+  # Convert date time character variables into actual date-times
+  df$Event.Clearance.Date = as.POSIXct(strptime(df$Event.Clearance.Date, format = "%m/%d/%Y %H:%M:%S"))
+  df$At.Scene.Time        = as.POSIXct(strptime(df$At.Scene.Time, format = "%m/%d/%Y %H:%M:%S"))
+  
+  return(df)
+}
+
+
+Seattle = read.csv("~/GitHub/Case-Study-2/Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
+Seattle = CleanerSeattle(Seattle)
+
+# Subsets for each District Sector existing in our data
 uniq = unique(Seattle$District.Sector)
 uniq = sort(uniq, decreasing = TRUE)
+SeattleWhole = Seattle
 for(i in 1:length(uniq)){
   assign(paste("Seattle", uniq[i], sep =""), Seattle[Seattle$District.Sector == uniq[i],])
 }
-names(SeattleM)
+
+
 # Seattle map, use to check the area codes I have
 mapSeattle = get_googlemap('Seattle', scale = 2, zoom = 11)
 SeattleMap = ggmap(mapSeattle, extent = "device", legend = "none")
-SeattleMapWithCrime = SeattleMap + geom_point(data = SeattleM, aes(x = Longitude, y = Latitude))
-SeattleMapWithCrime
+# Basic plots showing that there are differences in zone usage 
+SeattleMapWithCrimeM = SeattleMap + geom_point(data = SeattleM, aes(x = Longitude, y = Latitude))
+SeattleMapWithCrimeM
+SeattleMapWithCrimeB = SeattleMap + geom_point(data = SeattleB, aes(x = Longitude, y = Latitude))
+SeattleMapWithCrimeB
+
+
 SeattleMapWithCrimeLevels = SeattleMap +stat_density2d(aes(x = Longitude, y = Latitude, fill = ..level.., alpha = ..level..),
                                                        size = 2, bins = 4, geom = "polygon", data = SeattleM)
