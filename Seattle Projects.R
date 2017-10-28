@@ -102,6 +102,57 @@ SeattleMapWithCrimeM
 SeattleMapWithCrimeB = SeattleMap + geom_point(data = SeattleB, aes(x = Longitude, y = Latitude))
 SeattleMapWithCrimeB
 
-
+# Next step, plots with the severity of crime or something along those lines
 SeattleMapWithCrimeLevels = SeattleMap +stat_density2d(aes(x = Longitude, y = Latitude, fill = ..level.., alpha = ..level..),
                                                        size = 2, bins = 4, geom = "polygon", data = SeattleM)
+
+
+
+# ELO Function Basic Setup
+eloFunction = function(ARating, BRating, LearnCoef, Result){
+  
+  # Expectations
+  EA = (1 / (1 + 10^((BRating - ARating)/400)))
+  EB = (1 / (1 + 10^((ARating - BRating)/400)))
+  
+  # Update Ratings Based on Outcome
+  # A updated
+  newRatingAWin = ARating + LearnCoef * (1 - EA)
+  newRatingADraw= ARating + LearnCoef * (0.5-EA)
+  newRatingALoss= ARating + LearnCoef * (0 - EA)
+  
+  # B updated
+  newRatingBWin = BRating + LearnCoef * (1 - EB)
+  newRatingBDraw= BRating + LearnCoef * (0.5-EB)
+  newRatingBLoss= BRating + LearnCoef * (0 - EB)
+  
+  # Return updated rankings based on Result
+  if (Result > 0){
+    # Win for A
+    df = cbind(newRatingAWin, newRatingBLoss)
+  }
+  else if (Result < 0){
+    # Win for B
+    df = cbind(newRatingALoss, newRatingBWin)
+  }
+  else{
+    df = cbind(newRatingADraw, newRatingBDraw)
+  }
+  
+  colnames(df) = c("playerA", "playerB")
+  return(df)
+}
+
+# How to use the ELO Function:
+  # ARating, BRating, LearnCoef are all basic components of ELO
+    # ARating: ELO of A before 'match'
+    # BRating: ELO of B before 'match'
+    # LearnCoef: Rate of learning, decays over time
+  # Result is the outcome of the match
+    # Result > 0 is a win for PLAYER A
+    # Result < 0 is a win for PLAYER B
+    # Result = 0 is a draw
+
+# Testing ELO function
+ResultELO = eloFunction(1200, 1000, 20, 0)
+ResultELO
