@@ -36,7 +36,7 @@ CleanerCin = function(df){
   df$ARRIVAL_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$ARRIVAL_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
   df$CLOSED_TIME_INCIDENT = as.POSIXct(strptime(df$CLOSED_TIME_INCIDENT, format = "%m/%d/%Y %H:%M:%S"))
   df$DISPATCH_TIME_PRIMARY_UNIT = as.POSIXct(strptime(df$DISPATCH_TIME_PRIMARY_UNIT, format = "%m/%d/%Y %H:%M:%S"))
-
+  
   # Sort out data with longitude and latitude, make sure to return two data frames as a list
   subsetRows = !is.na(df$LONGITUDE_X) & !is.na(df$LATITUDE_X)
   address = df[ subsetRows,]
@@ -57,7 +57,7 @@ CinMap = ggmap(map, extent = "device", legend = "none")
 CinMapWithCrimePoints = CinMap + geom_point(data = CinAddress, aes(x = LONGITUDE_X, y = LATITUDE_X))
 CinMapWithCrimePoints
 CinMapWithCrimeLevels = CinMap + stat_density2d(aes(x = LONGITUDE_X, y = LATITUDE_X, fill = ..level.., alpha = ..level..),
-size = 2, bins = 4, geom = "polygon", data = CinAddress)
+                                                size = 2, bins = 4, geom = "polygon", data = CinAddress)
 CinMapWithCrimeLevels
 
 head(CinAddress$INCIDENT_TYPE_ID)
@@ -388,14 +388,14 @@ eloFunction = function(ARating, BRating, LearnCoef, Result){
 }
 
 # How to use the ELO Function:
-  # ARating, BRating, LearnCoef are all basic components of ELO
-    # ARating: ELO of A before 'match'
-    # BRating: ELO of B before 'match'
-    # LearnCoef: Rate of learning, decays over time
-  # Result is the outcome of the match
-    # Result > 0 is a win for PLAYER A
-    # Result < 0 is a win for PLAYER B
-    # Result = 0 is a draw
+# ARating, BRating, LearnCoef are all basic components of ELO
+# ARating: ELO of A before 'match'
+# BRating: ELO of B before 'match'
+# LearnCoef: Rate of learning, decays over time
+# Result is the outcome of the match
+# Result > 0 is a win for PLAYER A
+# Result < 0 is a win for PLAYER B
+# Result = 0 is a draw
 
 # Testing ELO function
 ResultELO = eloFunction(1200, 1000, 20, 0)
