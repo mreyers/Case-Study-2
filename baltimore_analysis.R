@@ -222,5 +222,5 @@ Balt_Spread$Week25
 # gene_ANN2 <- nnet(Balt_Spread[, -c(26)], ideal4, size = 10, softmax = T, MaxNWts = 4714)
 # 
 # test_pred2 <- predict(gene_ANN2, testData[, -c(1:4)], type = "class")
-# 
+#  
   
