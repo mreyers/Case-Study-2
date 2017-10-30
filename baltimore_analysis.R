@@ -223,4 +223,4 @@ Balt_Spread$Week25
 # 
 # test_pred2 <- predict(gene_ANN2, testData[, -c(1:4)], type = "class")
 # 
-
+  
