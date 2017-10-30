@@ -6,6 +6,7 @@ library(RCurl)
 library(jsonlite)
 library(Rfast)
 library(ggmap)
+library(tidyverse)
 
 # Function 1: Cleaner. Needed because data will likely be subset, no need to repeat code
 CleanerSeattle = function(df){
@@ -21,14 +22,11 @@ CleanerSeattle = function(df){
 }
 
 
-Seattle = read.csv("~/GitHub/Case-Study-2/Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
+Seattle = read.csv("Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
 Cincinnati = read.csv("~/GitHub/Case-Study-2/PDI_Police_Calls_For_Service__CAD_.csv", as.is = TRUE, strip.white = TRUE)
 
 Seattle = CleanerSeattle(Seattle)
 
-clean = CleanerSeattle(Seattle)
-View(head(Cincinnati))
-dim(Cincinnati)
 
 # Subsets to work with if doing Cincinnati stuff
 Cincinnati1 = Cincinnati[1:(0.2*length(Cincinnati$ADDRESS_X)),]
@@ -85,17 +83,55 @@ x = 1
 
 
 ################################ SEATTLE BORDER ##########################################
-# Subsets to work with if doing Seattle stuff
+
+# Reading in Data
+Seattle = read.csv("Seattle_Police_Department_911_Incident_Response.csv", as.is = TRUE, strip.white = TRUE)
+
+# Subsetting by year
+Seattle$Year <- as.numeric(substr(Seattle$Event.Clearance.Date, 7, 10))
+Seattle <- Seattle %>% filter(Seattle$Year > 2014)
+SeattleWhole <- Seattle
+
+# Creating new zone data sets
 uniq = unique(Seattle$District.Sector)
 uniq = sort(uniq, decreasing = TRUE)
 for(i in 1:length(uniq)){
   assign(paste("Seattle", uniq[i], sep =""), Seattle[Seattle$District.Sector == uniq[i],])
 }
 names(SeattleM)
-# Seattle map, use to check the area codes I have
+
+# Seattle map code for one zone
 mapSeattle = get_googlemap('Seattle', scale = 2, zoom = 11)
 SeattleMap = ggmap(mapSeattle, extent = "device", legend = "none")
 SeattleMapWithCrime = SeattleMap + geom_point(data = SeattleM, aes(x = Longitude, y = Latitude))
-SeattleMapWithCrime
 SeattleMapWithCrimeLevels = SeattleMap +stat_density2d(aes(x = Longitude, y = Latitude, fill = ..level.., alpha = ..level..),
                                                        size = 2, bins = 4, geom = "polygon", data = SeattleM)
+
+##### Making all plots #####
+zone_names <- uniq[-c(18)] # Getting rid of empty string by position haha
+
+# Plot making function
+seattle_zone_heatmaps_function <- function(zone) {
+  
+  # selecting city
+  unique_zone <- SeattleWhole %>% filter(District.Sector == zone)
+  
+  # Plot
+  SeattleMap = ggmap(mapSeattle, extent = "device", legend = "none")
+  SeattleMapWithCrime = SeattleMap + geom_point(data = unique_zone, aes(x = Longitude, y = Latitude))
+  
+  SeattleMapWithCrime + ggsave(ggsave(paste("Seattle", "_", zone, ".png")))
+  
+  return(NULL)
+}
+
+# Looping over each zone
+for (i in 1:length(zone_names)){
+  tryCatch(
+    seattle_zone_heatmaps_function(zone_names[i]),
+    error = function(e){})
+}
+
+#####  ######
+
+
