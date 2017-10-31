@@ -1,3 +1,25 @@
+# Brad's Code
+
+# Packages
+install.packages("forecast")
+install.packages("ggplot2")
+install.packages("TSA")
+install.packages("scales")
+install.packages("rnoaa")
+
+# Library
+library(dplyr)
+library(forecast)
+library(tseries)
+library(ggplot2)
+library(dplyr)
+library(TSA)
+library(scales)
+library(rnoaa)
+
+setwd("C:/Users/Brad_/Desktop/SFU/Statistics/Statistics 440/Case Studies/Case Study 2")
+Seattle <- read.csv()
+
 # Number of Calls
 # Working with a random sample of the Seattle data to begin with.
 
@@ -228,9 +250,513 @@ timeSeq <- seq(as.Date("2010-07-17"), as.Date("2017-09-08"), by = "days")
 dayPlot_Count <- plot_CallCount(Seattle, timeSeq)  
 dayPlot_Count
 
-gameOutcome <- function(playerData, oppData){
-  # Based on specified number of crimes in certain categories, we decided if that district won or lost the game
-  # Plays against the average of the other districts
+
+###########################################################################################################
+########################################### SEATTLE Time Series Models ####################################
+###########################################################################################################
+
+Seattle <- read.csv("Seattle_Police_Department_911_Incident_Response.csv", header = TRUE)
+View(Seattle)
+
+SeattleData <- callsPerDay(Seattle, FALSE) # Round off the number of calls to the day
+SeattleData2 <- SeattleData[1271:2289, ] # Row 1271 is the start of 2015
+
+View(SeattleData)
+View(SeattleData2)
+
+SeattleNumbers <- SeattleData2[,2]
+SeattleNumbers
+
+
+ts.Seattle <- ts(SeattleNumbers, start = 1, end = 1019)
+View(ts.Seattle)
+plot.ts(ts.Seattle)
+
+acf(ts.Seattle)
+pacf(ts.Seattle)
+
+seattle.fit <- auto.arima(ts.Seattle)
+seattle.fit
+
+seattle.pred2 <- predict(seattle.fit, n.ahead = 30)
+seattle.pred <- forecast(seattle.fit, h = 30)
+seattle.pred
+str(seattle.pred)
+
+plot(seattle.pred)
+plot.ts(seattle.pred)
+
+
+# Adding Weather to the model
+
+station_data = ghcnd_stations()
+Seattle_station=filter(station_data, latitude<48, latitude>47,
+                       state=="WA", last_year==2017)
+View(Seattle_station)
+
+weather_merp=ghcnd_search("USW00024233", var = c("TAVG", "PRCP"), date_min = "2015-01-01", date_max = "2017-10-22")
+#weather_merp=ghcnd_search("USC00458278", var = "all", date_min = "2010-07-18", date_max = "2017-10-22")
+
+
+weather_merp
+View(weather_merp)
+str(weather_merp)
+
+
+prcpData <- as.data.frame(weather_merp[2])
+prcpData
+
+amountRain <- prcpData[1:1019, 2]
+amountRain
+
+plot(amountRain, type = "l")
+
+acf(amountRain)
+
+rain.fit <- auto.arima(amountRain)
+rain.fit
+
+# Multivariate Time Series Modelling 
+
+multi1.fit <- auto.arima(ts.Seattle, xreg = amountRain)
+multi1.fit
+
+# Two model comparison
+multi1.fit
+seattle.fit
+
+
+###########################################################################################################
+
+#### Baltimore Analysis #####
+
+# Data
+balt <- read.csv("baltimore_cleaned_hp.csv", header = TRUE)
+balt
+View(balt)
+names(balt)
+
+# 
+?arima()
+
+Weeks <- c(1:150)
+
+balt %>%
+  dplyr::filter(District == "CD") %>%
+  select(number) -> balt_CD
+
+balt_CD <- ts(balt_CD, start = 1, end = 150)
+balt_CD
+
+dist_CD
+View(dist_CD)
+str(dist_CD)
+str(dist_CD$number)
+
+
+?ts()
+
+plot.ts(balt_CD, type = "l")
+
+ggplot(dist_CD, aes(x = Weeks, y = number)) + geom_line()
+
+?acf()
+# Check stationarity with acf
+acf(balt_CD, lag.max = 30)
+# Does not appear stationary.  Too many significant lags.  
+# After differencing it looks much better.  Looks pretty stationary
+
+# Difference time series
+balt_CD <- diff(balt_CD)
+balt_CD
+
+pacf(balt_CD)
+
+eacf(balt_CD)
+
+?auto.arima
+fit.CD1 <- auto.arima(balt_CD)
+# Recommends a MA(1) model.  One difference (I did on my own) and no AR component.
+# Integrated Moving Average
+
+fit.CD1
+str(fit.CD1)
+
+?arima()
+fit.CD2 <- arima(balt_CD, order = c(0,0,1))
+fit.CD
+
+Districts = unique(balt$District)
+Districts[1]
+
+timeSeries_Balt <- function(dataframe){
   
+  Districts = unique(dataframe$District) # Find all districts from dataframe
+  models <- list() # Initialize vector that will contain data from each model
+  
+  for(i in 1:length(Districts)){ # Fitting an arima model for each district in the data
+    dataframe %>%
+      dplyr::filter(District == Districts[i]) %>%
+      dplyr::select(number) -> District_
+    
+    District_ <- ts(District_, start = 1, end = 150)
+    models[[i]] <- auto.arima(District_)
+  }
+  return(models)
 }
+
+Balt.Dist.Models <- timeSeries_Balt(balt)
+Balt.Dist.Models
+
+# All the Baltimore Districts Manually
+
+Districts
+
+### District 1: CD
+
+# Data
+balt %>%
+  dplyr::filter(District == "CD") %>%
+  select(number) -> balt_CD
+
+
+# Plots
+plot(balt_CD)
+acf(balt_CD)
+
+balt_CD <- ts(balt_CD, start = 1, end = 150)
+fit.CD <- auto.arima(balt_CD)
+fit.CD
+pred.CD <- predict(fit.CD, n.ahead = 1)
+pred.CD <- forecast(fit.CD, h = 5)
+plot(pred.CD)
+
+### District 2: CW
+
+# Data
+balt %>%
+  dplyr::filter(District == "CW") %>%
+  select(number) -> balt_CW
+
+balt_CW <- ts(balt_CW, start = 1, end = 150)
+
+# Plots
+plot(balt_CW)
+
+# Model
+fit.CW <- auto.arima(balt_CW)
+fit.CW
+
+# Forecast
+pred.CW <- predict(fit.CW, n.ahead = 5)
+pred.CW <- forecast(fit.CW, h = 5)
+pred.CW
+plot(pred.CW)
+
+
+pred2.CW <-funggcast(balt_CW, pred.CW)
+
+### District 3: ED
+
+# Data
+balt %>%
+  dplyr::filter(District == "ED") %>%
+  select(number) -> balt_ED
+
+balt_ED <- ts(balt_ED, start = 1, end = 150)
+
+# Plots
+plot(balt_ED)
+
+# Model
+fit.ED <- auto.arima(balt_ED)
+fit.ED
+
+# Forecast
+pred.ED <- predict(fit.ED, n.ahead = 5)
+pred.ED <- forecast(fit.ED, h = 5)
+pred.ED
+plot(pred.ED)
+
+forecast_CW<-ggplot(data=pred2.CW,aes(x=Point,y=Forecast)) 
+p1a<-p1a+geom_line(col='red')
+p1a<-p1a+geom_line(aes(y=fitted),col='blue')
+
+### District 4: EVT1
+
+# Data
+balt %>%
+  dplyr::filter(District == "EVT1") %>%
+  select(number) -> balt_EVT1
+
+balt_EVT1 <- ts(balt_EVT1, start = 1, end = 150)
+
+# Plots
+plot(balt_EVT1)
+
+# Model
+fit.EVT1 <- auto.arima(balt_EVT1)
+fit.EVT1
+
+# Forecast
+pred.EVT1 <- predict(fit.EVT1, n.ahead = 5)
+pred.EVT1 <- forecast(fit.EVT1, h = 5)
+pred.EVT1
+plot(pred.EVT1)
+
+
+### District 5: EVT2
+
+# Data
+balt %>%
+  dplyr::filter(District == "EVT2") %>%
+  select(number) -> balt_EVT2
+
+balt_EVT2 <- ts(balt_EVT2, start = 1, end = 150)
+
+# Plots
+plot(balt_EVT2)
+
+# Model
+fit.EVT2 <- auto.arima(balt_EVT2)
+fit.EVT2
+
+# Forecast
+pred.EVT2 <- predict(fit.EVT2, n.ahead = 5)
+pred.EVT2 <- forecast(fit.EVT2, h = 5)
+pred.EVT2
+plot(pred.EVT2)
+
+
+### District 6: HP
+
+# Data
+balt %>%
+  dplyr::filter(District == "HP") %>%
+  select(number) -> balt_HP
+
+balt_HP <- ts(balt_HP, start = 1, end = 150)
+
+# Plots
+plot(balt_HP)
+
+# Model
+fit.HP <- auto.arima(balt_HP)
+fit.HP
+
+# Forecast
+pred.HP <- predict(fit.HP, n.ahead = 5)
+pred.HP <- forecast(fit.HP, h = 5)
+pred.HP
+plot(pred.HP)
+
+
+### District 7: ND
+
+# Data
+balt %>%
+  dplyr::filter(District == "ND") %>%
+  select(number) -> balt_ND
+
+balt_ND <- ts(balt_ND, start = 1, end = 150)
+
+# Plots
+plot(balt_ND)
+
+# Model
+fit.ND <- auto.arima(balt_ND)
+fit.ND
+
+# Forecast
+pred.ND <- predict(fit.ND, n.ahead = 5)
+pred.ND <- forecast(fit.ND, h = 5)
+pred.ND
+plot(pred.ND)
+
+
+### District 8: NE
+
+# Data
+balt %>%
+  dplyr::filter(District == "NE") %>%
+  select(number) -> balt_NE
+
+balt_NE <- ts(balt_NE, start = 1, end = 150)
+
+# Plots
+plot(balt_NE)
+
+# Model
+fit.NE <- auto.arima(balt_NE)
+fit.NE
+
+# Forecast
+pred.NE <- predict(fit.NE, n.ahead = 5)
+pred.NE <- forecast(fit.NE, h = 5)
+pred.NE
+plot(pred.NE)
+
+
+### District 9: NW
+
+# Data
+balt %>%
+  dplyr::filter(District == "NW") %>%
+  select(number) -> balt_NW
+
+balt_NW <- ts(balt_NW, start = 1, end = 150)
+
+# Plots
+plot(balt_NW)
+
+# Model
+fit.NW <- auto.arima(balt_NW)
+fit.NW
+
+# Forecast
+pred.NW <- predict(fit.NW, n.ahead = 5)
+pred.NW <- forecast(fit.NW, h = 5)
+pred.NW
+plot(pred.NW)
+
+
+### District 10: SD
+
+# Data
+balt %>%
+  dplyr::filter(District == "SD") %>%
+  select(number) -> balt_SD
+
+balt_SD <- ts(balt_SD, start = 1, end = 150)
+
+# Plots
+plot(balt_SD)
+
+# Model
+fit.SD <- auto.arima(balt_SD)
+fit.SD
+
+# Forecast
+pred.SD <- predict(fit.SD, n.ahead = 5)
+pred.SD <- forecast(fit.SD, h = 5)
+pred.SD
+plot(pred.SD)
+
+
+### District 11: SE
+
+# Data
+balt %>%
+  dplyr::filter(District == "SE") %>%
+  select(number) -> balt_SE
+
+balt_SE <- ts(balt_SE, start = 1, end = 150)
+
+# Plots
+plot(balt_SE)
+
+# Model
+fit.SE <- auto.arima(balt_SE)
+fit.SE
+
+# Forecast
+pred.SE <- predict(fit.SE, n.ahead = 5)
+pred.SE <- forecast(fit.SE, h = 5)
+pred.SE
+plot(pred.SE)
+
+
+### District 12: SS
+
+# Data
+balt %>%
+  dplyr::filter(District == "SS") %>%
+  select(number) -> balt_SS
+
+balt_SS <- ts(balt_SS, start = 1, end = 150)
+
+# Plots
+plot(balt_SS)
+
+# Model
+fit.SS <- auto.arima(balt_SS)
+fit.SS
+
+# Forecast
+pred.SS <- predict(fit.SS, n.ahead = 5)
+pred.SS <- forecast(fit.SS, h = 5)
+pred.SS
+plot(pred.SS)
+
+
+### District 13: SW
+
+# Data
+balt %>%
+  dplyr::filter(District == "SW") %>%
+  select(number) -> balt_SW
+
+balt_SW <- ts(balt_SW, start = 1, end = 150)
+
+# Plots
+plot(balt_SW)
+
+# Model
+fit.SW <- auto.arima(balt_SW)
+fit.SW
+
+# Forecast
+pred.SW <- predict(fit.SW, n.ahead = 5)
+pred.SW <- forecast(fit.SW, h = 5)
+pred.SW
+plot(pred.SW)
+
+
+### District 14: TRU
+
+# Data
+balt %>%
+  dplyr::filter(District == "TRU") %>%
+  select(number) -> balt_TRU
+
+balt_TRU <- ts(balt_TRU, start = 1, end = 150)
+
+# Plots
+plot(balt_TRU)
+
+# Model
+fit.TRU <- auto.arima(balt_TRU)
+fit.TRU
+
+# Forecast
+pred.TRU <- predict(fit.TRU, n.ahead = 5)
+pred.TRU <- forecast(fit.TRU, h = 5)
+pred.TRU
+plot(pred.TRU)
+
+
+### District 15: WD
+
+# Data
+balt %>%
+  dplyr::filter(District == "WD") %>%
+  select(number) -> balt_WD
+
+balt_WD <- ts(balt_WD, start = 1, end = 150)
+
+# Plots
+plot(balt_WD)
+
+# Model
+fit.WD <- auto.arima(balt_WD)
+fit.WD
+
+# Forecast
+pred.WD <- predict(fit.WD, n.ahead = 5)
+pred.WD <- forecast(fit.WD, h = 5)
+pred.WD
+plot(pred.WD)
+
+
+### More Baltimore Analysis
 
