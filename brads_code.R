@@ -16,6 +16,8 @@ library(dplyr)
 library(TSA)
 library(scales)
 library(rnoaa)
+library(stringr)
+
 
 setwd("C:/Users/Brad_/Desktop/SFU/Statistics/Statistics 440/Case Studies/Case Study 2")
 Seattle <- read.csv()
@@ -39,6 +41,47 @@ str(dat_sample$Event.Clearance.Date)
 dat_sample$Event.Clearance.Date = as.POSIXct(strptime(dat_sample$Event.Clearance.Date, format = "%m/%d/%Y %I:%M:%S %p"))
 dat_sample$Event.Clearance.Date # Now in 24 hour clock
 str(times)
+
+
+callsPerHour <- function(data, fullDF){
+  # Returns one of two things.
+  # If fullDF = TRUE then returns data with calls two new columns (rounded hours, and calls that hour)
+  # If fullDF = FALSE then returns the rounded hour and number of calls for that hour.
+  # Round Incidents to the hour. Removes minutes, seconds, and am/pm
+  if(fullDF == TRUE){
+    #Convert events to time that is useable.
+    data$Event.Clearance.Date = as.POSIXct(strptime(data$Event.Clearance.Date, format = "%m/%d/%Y %I:%M:%S %p"))
+    timesHour <- substr(data$Event.Clearance.Date, 1,13)
+    data <- cbind(data, timesHour) # Add it to the dataframe
+    
+    data2 = data # Copy for later.
+    
+    # Obtain count of calls per week
+    data2 %>%
+      group_by(timesHour) %>%
+      summarise(timesPerHour = n()) %>%
+      mutate(timesPerHour) -> data2
+    
+    # Combine data and count.  Then return.
+    data <- merge(data, data2, by = "timesHour")
+    return(data)
+    
+  }else{ # If fullDF = FALSE
+    
+    #Convert events to time that is useable.
+    data$Event.Clearance.Date = as.POSIXct(strptime(data$Event.Clearance.Date, format = "%m/%d/%Y %I:%M:%S %p"))
+    timesHour <- substr(data$Event.Clearance.Date, 1,13)
+    data <- cbind(data, timesHour) # Add it to the dataframe
+    
+    # Obtain count of calls per week
+    data %>%
+      group_by(timesHour) %>%
+      summarise(timesPerHour = n()) %>%
+      mutate(timesPerHour) -> data
+    return(data)
+  }
+}
+
 
 
 callsPerDay <- function(data, fullDF){
@@ -269,6 +312,27 @@ SeattleNumbers
 
 
 ts.Seattle <- ts(SeattleNumbers, start = 1, end = 1019)
+
+# Split Seattle Time Series Data into Test and Train
+
+
+dim(ts.Seattle)
+
+train.Seattle <- ts.Seattle[1:(0.75*nrow(ts.Seattle)), ]
+test.Seattle <- ts.Seattle[(0.75*nrow(ts.Seattle)+ 1):nrow(ts.Seattle), ]
+
+train.Seattle # 764 Observations
+test.Seattle # 254 observations
+
+Seattle.fit2 <- auto.arima(train.Seattle)
+Seattle.fit2
+
+Seattle.sim <- arima.sim(n = 253, list(order = c(1,1,3), ar = c(-0.2790), ma = c(-0.1779, -0.4842, -0.2253)))
+Seattle.sim
+
+plot(test.Seattle, type = "l")
+plot(Seattle.sim)
+
 View(ts.Seattle)
 plot.ts(ts.Seattle)
 
@@ -302,6 +366,11 @@ weather_merp
 View(weather_merp)
 str(weather_merp)
 
+tempData <- as.data.frame(weather_merp[1])
+tempData
+
+avgTemp <- tempData[1:1019, 2]
+avgTemp
 
 prcpData <- as.data.frame(weather_merp[2])
 prcpData
@@ -316,14 +385,49 @@ acf(amountRain)
 rain.fit <- auto.arima(amountRain)
 rain.fit
 
+totalWeatherData = cbind(amountRain, avgTemp)
+
 # Multivariate Time Series Modelling 
 
-multi1.fit <- auto.arima(ts.Seattle, xreg = amountRain)
+multi1.fit <- auto.arima(ts.Seattle, xreg = amountRain) # Rain data added
 multi1.fit
 
+multi2.fit <- auto.arima(ts.Seattle, xreg = avgTemp) # Temperature Data added
+multi2.fit
+
+multi3.fit <- auto.arima(ts.Seattle, xreg = totalWeatherData) # Rain and Temperature Data added
+multi3.fit
+
+multi3.pred <- forecast(multi3.fit, h = 30)
+
 # Two model comparison
-multi1.fit
-seattle.fit
+
+multi1.fit # With Rain
+multi2.fit # With Temp
+multi3.fit # With Rain and Temp (FULL MODEL)
+seattle.fit # Plain ARIMA model
+
+# BIC says they are all basically the same
+seattle.fit$bic
+multi1.fit$bic
+multi2.fit$bic
+multi3.fit$bic
+
+
+#### Crimes Rounded to the Hour ####
+
+SeattleHours <- callsPerHour(Seattle, FALSE)
+View(SeattleHours) # 26908
+
+SeattleHours2 <- SeattleHours[26908:nrow(SeattleHours), ]
+SeattleHours2
+
+SeattleHours.Num <- ts(SeattleHours2[,2])
+
+SeattleHours.fit <- auto.arima(SeattleHours.Num)
+SeattleHours.fit
+
+
 
 
 ###########################################################################################################
@@ -408,7 +512,7 @@ timeSeries_Balt <- function(dataframe){
 Balt.Dist.Models <- timeSeries_Balt(balt)
 Balt.Dist.Models
 
-# All the Baltimore Districts Manually
+### All the Baltimore Districts Manually
 
 Districts
 
