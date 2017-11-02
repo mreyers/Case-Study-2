@@ -96,7 +96,7 @@ balt_high <- balt2 %>%
   select(Priority, Description)
 
 # Getting all actual high priority crimes
-High_Priority <- unique(balt_low$Description)[c(4, 6, 7, 10, 11, 
+High_Priority <- unique(balt_high$Description)[c(4, 6, 7, 10, 11, 
                                15, 16, 17, 20, 28,
                                70, 72, 74, 85,
                                95, 96, 98, 99, 100,
@@ -162,15 +162,23 @@ balt_grouped2 <- balt3 %>%
   group_by(Week, Priority) %>%
   summarise(number = n())
 
+balt_grouped3 <- balt3 %>% 
+  group_by(District, Week, Priority) %>% 
+  summarise(number = n())
+
 # Getting as data frame for both
 balt_grouped <- as.data.frame(balt_grouped)
 balt_grouped2 <- as.data.frame(balt_grouped2)
+balt_grouped3 <- as.data.frame(balt_grouped3)
 
 # Getting rid of all observations with "" for priority for both
 balt_grouped <- balt_grouped %>% 
   filter(Priority != "")
 
 balt_grouped2 <- balt_grouped2 %>% 
+  filter(Priority != "")
+
+balt_grouped3 <- balt_grouped3 %>% 
   filter(Priority != "")
 
 # Let's look at only very high for both
@@ -223,4 +231,10 @@ Balt_Spread$Week25
 # 
 # test_pred2 <- predict(gene_ANN2, testData[, -c(1:4)], type = "class")
 #  
+
+# linear regression
+lm_model <- lm(Week25 ~ Week20 + Week21 + Week22 +
+                 Week23 + Week24, data = Balt_Spread)
   
+summary(lm_model)
+
