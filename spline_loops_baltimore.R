@@ -14,18 +14,18 @@ unique(baltimore_edit$District)
 unique(baltimore_edit$Week)
 
 for (j in 1:length(unique(baltimore_edit2$Week))){
-    for (k in 1:length(unique(baltimore_edit2$District))){
-      
-      df <- baltimore_edit2 %>% 
-        filter(Year == 2015 & 
+  for (k in 1:length(unique(baltimore_edit2$District))){
+    
+    df <- baltimore_edit2 %>% 
+      filter(Year == 2015 & 
                Week == unique(baltimore_edit2$Week)[j] &
                District == unique(baltimore_edit2$District)[k])
-      
-      if (nrow(df) == 5) {
-        assign(paste(unique(baltimore_edit2$District)[k], as.character(unique(baltimore_edit2$Week)[j]), "2015", sep = "_"),
-               smooth.spline(df$prior_num, df$Proportion))
-      }
+    
+    if (nrow(df) == 5) {
+      assign(paste(unique(baltimore_edit2$District)[k], as.character(unique(baltimore_edit2$Week)[j]), "2015", sep = "_"),
+             smooth.spline(df$prior_num, df$Proportion))
     }
+  }
 }
 
 for (j in 1:length(unique(baltimore_edit2$Week))){
@@ -60,82 +60,82 @@ acf_weights_veryhigh <- NULL
 
 for (i in 1:length(unique(baltimore_edit2$Year))){
   for (k in 1:length(unique(baltimore_edit2$District))){
+    
+    test1 <- baltimore_edit2 %>% 
+      filter(District == unique(baltimore_edit2$District)[k] 
+             & Year == unique(baltimore_edit2$Year)[i] & Priority == "Low") 
+    
+    test2 <- baltimore_edit2  %>% 
+      filter(District == unique(baltimore_edit2$District)[k] 
+             & Year == unique(baltimore_edit2$Year)[i] & Priority == "Medium") 
+    
+    test3 <- baltimore_edit2 %>% 
+      filter(District == unique(baltimore_edit2$District)[k] 
+             & Year == unique(baltimore_edit2$Year)[i] & Priority == "High") 
+    
+    test4 <- baltimore_edit2  %>% 
+      filter(District == unique(baltimore_edit2$District)[k] 
+             & Year == unique(baltimore_edit2$Year)[i] & Priority == "Very High") 
+    
+    test5 <- baltimore_edit2  %>% 
+      filter(District == unique(baltimore_edit2$District)[k] 
+             & Year == unique(baltimore_edit2$Year)[i] & Priority == "Non-Emergency") 
+    
+    if (nrow(test5) == 53){
       
-        test1 <- baltimore_edit2 %>% 
-          filter(District == unique(baltimore_edit2$District)[k] 
-                 & Year == unique(baltimore_edit2$Year)[i] & Priority == "Low") 
-        
-        test2 <- baltimore_edit2  %>% 
-          filter(District == unique(baltimore_edit2$District)[k] 
-                 & Year == unique(baltimore_edit2$Year)[i] & Priority == "Medium") 
-        
-        test3 <- baltimore_edit2 %>% 
-          filter(District == unique(baltimore_edit2$District)[k] 
-                 & Year == unique(baltimore_edit2$Year)[i] & Priority == "High") 
-        
-        test4 <- baltimore_edit2  %>% 
-          filter(District == unique(baltimore_edit2$District)[k] 
-                 & Year == unique(baltimore_edit2$Year)[i] & Priority == "Very High") 
-        
-        test5 <- baltimore_edit2  %>% 
-          filter(District == unique(baltimore_edit2$District)[k] 
-                 & Year == unique(baltimore_edit2$Year)[i] & Priority == "Non-Emergency") 
+      test5 <- test5[-(25:53),]
       
-        if (nrow(test5) == 53){
-        
-          test5 <- test5[-(25:53),]
-          
-          test5 <- test5[seq(dim(test5)[1],1),]  
-          
-        assign(paste("acf_weights_nonemergency",
-                     unique(baltimore_edit2$District)[k], 
-                     as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test5$Proportion)$acf)
-        }
-        
-        if (nrow(test1) == 53) {
-          
-          test1 <- test1[-(25:53),]
-          
-          test1 <- test1[seq(dim(test1)[1],1),]
-          
-          assign(paste("acf_weights_low",
-                       unique(baltimore_edit2$District)[k], 
-                       as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test1$Proportion)$acf)
-        }
-        
-        if (nrow(test2) == 53) { 
-          
-          test2 <- test2[-(25:53),]
-          
-          test2 <- test2[seq(dim(test2)[1],1),]
-          
-          assign(paste("acf_weights_medium",
-                       unique(baltimore_edit2$District)[k], 
-                       as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test2$Proportion)$acf)
-        }
-        
-        if (nrow(test3) == 53) {
-          
-          test3 <- test3[-(25:53),]
-          
-          test3 <- test3[seq(dim(test3)[1],1),]
-          
-          assign(paste("acf_weights_high",
-                       unique(baltimore_edit2$District)[k], 
-                       as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test3$Proportion)$acf)
-        }
-        
-        if (nrow(test4) == 53) {
-          
-          test4 <- test4[-(25:53),]
-          
-          test4 <- test4[seq(dim(test4)[1],1),]
-          
-          assign(paste("acf_weights_veryhigh",
-                       unique(baltimore_edit2$District)[k], 
-                       as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test4$Proportion)$acf)
-        }
-        
+      test5 <- test5[seq(dim(test5)[1],1),]  
+      
+      assign(paste("acf_weights_nonemergency",
+                   unique(baltimore_edit2$District)[k], 
+                   as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test5$Proportion)$acf)
+    }
+    
+    if (nrow(test1) == 53) {
+      
+      test1 <- test1[-(25:53),]
+      
+      test1 <- test1[seq(dim(test1)[1],1),]
+      
+      assign(paste("acf_weights_low",
+                   unique(baltimore_edit2$District)[k], 
+                   as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test1$Proportion)$acf)
+    }
+    
+    if (nrow(test2) == 53) { 
+      
+      test2 <- test2[-(25:53),]
+      
+      test2 <- test2[seq(dim(test2)[1],1),]
+      
+      assign(paste("acf_weights_medium",
+                   unique(baltimore_edit2$District)[k], 
+                   as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test2$Proportion)$acf)
+    }
+    
+    if (nrow(test3) == 53) {
+      
+      test3 <- test3[-(25:53),]
+      
+      test3 <- test3[seq(dim(test3)[1],1),]
+      
+      assign(paste("acf_weights_high",
+                   unique(baltimore_edit2$District)[k], 
+                   as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test3$Proportion)$acf)
+    }
+    
+    if (nrow(test4) == 53) {
+      
+      test4 <- test4[-(25:53),]
+      
+      test4 <- test4[seq(dim(test4)[1],1),]
+      
+      assign(paste("acf_weights_veryhigh",
+                   unique(baltimore_edit2$District)[k], 
+                   as.character(unique(baltimore_edit2$Year)[i]), sep = "_"), acf(test4$Proportion)$acf)
+    }
+    
   }
 }
 

@@ -1,156 +1,156 @@
-acf_weights_SE_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_SE_2016,
+acf_weights_SE_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_SE_2016,
                                         low = acf_weights_low_SE_2016,
                                         medium = acf_weights_medium_SE_2016,
                                         high = acf_weights_high_SE_2016,
                                         very_high = acf_weights_veryhigh_SE_2016
 ))
 
-acf_weights_SE_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_SE_2015,
+acf_weights_SE_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_SE_2015,
                                         low = acf_weights_low_SE_2015,
                                         medium = acf_weights_medium_SE_2015,
                                         high = acf_weights_high_SE_2015,
                                         very_high = acf_weights_veryhigh_SE_2015
 ))
 
-acf_weights_CD_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_CD_2016,
-                                        low = acf_weights_low_CD_2016,
-                                        medium = acf_weights_medium_CD_2016,
-                                        high = acf_weights_high_CD_2016,
-                                        very_high = acf_weights_veryhigh_CD_2016
+acf_weights_CD_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_CD_2016,
+                                         low = acf_weights_low_CD_2016,
+                                         medium = acf_weights_medium_CD_2016,
+                                         high = acf_weights_high_CD_2016,
+                                         very_high = acf_weights_veryhigh_CD_2016
 ))
 
-acf_weights_CD_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_CD_2015,
-                                        low = acf_weights_low_CD_2015,
-                                        medium = acf_weights_medium_CD_2015,
-                                        high = acf_weights_high_CD_2015,
-                                        very_high = acf_weights_veryhigh_CD_2015
+acf_weights_CD_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_CD_2015,
+                                         low = acf_weights_low_CD_2015,
+                                         medium = acf_weights_medium_CD_2015,
+                                         high = acf_weights_high_CD_2015,
+                                         very_high = acf_weights_veryhigh_CD_2015
 ))
 
-acf_weights_CW_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_CW_2016,
-                                        low = acf_weights_low_CW_2016,
-                                        medium = acf_weights_medium_CW_2016,
-                                        high = acf_weights_high_CW_2016,
-                                        very_high = acf_weights_veryhigh_CW_2016
+acf_weights_CW_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_CW_2016,
+                                         low = acf_weights_low_CW_2016,
+                                         medium = acf_weights_medium_CW_2016,
+                                         high = acf_weights_high_CW_2016,
+                                         very_high = acf_weights_veryhigh_CW_2016
 ))
 
-acf_weights_CW_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_CW_2015,
-                                        low = acf_weights_low_CW_2015,
-                                        medium = acf_weights_medium_CW_2015,
-                                        high = acf_weights_high_CW_2015,
-                                        very_high = acf_weights_veryhigh_CW_2015
+acf_weights_CW_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_CW_2015,
+                                         low = acf_weights_low_CW_2015,
+                                         medium = acf_weights_medium_CW_2015,
+                                         high = acf_weights_high_CW_2015,
+                                         very_high = acf_weights_veryhigh_CW_2015
 ))
 
-acf_weights_ED_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_ED_2016,
-                                        low = acf_weights_low_ED_2016,
-                                        medium = acf_weights_medium_ED_2016,
-                                        high = acf_weights_high_ED_2016,
-                                        very_high = acf_weights_veryhigh_ED_2016
+acf_weights_ED_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_ED_2016,
+                                         low = acf_weights_low_ED_2016,
+                                         medium = acf_weights_medium_ED_2016,
+                                         high = acf_weights_high_ED_2016,
+                                         very_high = acf_weights_veryhigh_ED_2016
 ))
 
-acf_weights_ED_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_ED_2015,
-                                        low = acf_weights_low_ED_2015,
-                                        medium = acf_weights_medium_ED_2015,
-                                        high = acf_weights_high_ED_2015,
-                                        very_high = acf_weights_veryhigh_ED_2015
+acf_weights_ED_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_ED_2015,
+                                         low = acf_weights_low_ED_2015,
+                                         medium = acf_weights_medium_ED_2015,
+                                         high = acf_weights_high_ED_2015,
+                                         very_high = acf_weights_veryhigh_ED_2015
 ))
 
-acf_weights_ND_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_ND_2016,
-                                        low = acf_weights_low_ND_2016,
-                                        medium = acf_weights_medium_ND_2016,
-                                        high = acf_weights_high_ND_2016,
-                                        very_high = acf_weights_veryhigh_ND_2016
+acf_weights_ND_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_ND_2016,
+                                         low = acf_weights_low_ND_2016,
+                                         medium = acf_weights_medium_ND_2016,
+                                         high = acf_weights_high_ND_2016,
+                                         very_high = acf_weights_veryhigh_ND_2016
 ))
 
-acf_weights_ND_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_ND_2015,
-                                        low = acf_weights_low_ND_2015,
-                                        medium = acf_weights_medium_ND_2015,
-                                        high = acf_weights_high_ND_2015,
-                                        very_high = acf_weights_veryhigh_ND_2015
+acf_weights_ND_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_ND_2015,
+                                         low = acf_weights_low_ND_2015,
+                                         medium = acf_weights_medium_ND_2015,
+                                         high = acf_weights_high_ND_2015,
+                                         very_high = acf_weights_veryhigh_ND_2015
 ))
 
-acf_weights_NE_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_NE_2016,
-                                        low = acf_weights_low_NE_2016,
-                                        medium = acf_weights_medium_NE_2016,
-                                        high = acf_weights_high_NE_2016,
-                                        very_high = acf_weights_veryhigh_NE_2016
+acf_weights_NE_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_NE_2016,
+                                         low = acf_weights_low_NE_2016,
+                                         medium = acf_weights_medium_NE_2016,
+                                         high = acf_weights_high_NE_2016,
+                                         very_high = acf_weights_veryhigh_NE_2016
 ))
 
-acf_weights_NE_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_NE_2015,
-                                        low = acf_weights_low_NE_2015,
-                                        medium = acf_weights_medium_NE_2015,
-                                        high = acf_weights_high_NE_2015,
-                                        very_high = acf_weights_veryhigh_NE_2015
+acf_weights_NE_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_NE_2015,
+                                         low = acf_weights_low_NE_2015,
+                                         medium = acf_weights_medium_NE_2015,
+                                         high = acf_weights_high_NE_2015,
+                                         very_high = acf_weights_veryhigh_NE_2015
 ))
 
-acf_weights_NW_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_NW_2016,
-                                        low = acf_weights_low_NW_2016,
-                                        medium = acf_weights_medium_NW_2016,
-                                        high = acf_weights_high_NW_2016,
-                                        very_high = acf_weights_veryhigh_NW_2016
+acf_weights_NW_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_NW_2016,
+                                         low = acf_weights_low_NW_2016,
+                                         medium = acf_weights_medium_NW_2016,
+                                         high = acf_weights_high_NW_2016,
+                                         very_high = acf_weights_veryhigh_NW_2016
 ))
 
-acf_weights_NW_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_NW_2015,
-                                        low = acf_weights_low_NW_2015,
-                                        medium = acf_weights_medium_NW_2015,
-                                        high = acf_weights_high_NW_2015,
-                                        very_high = acf_weights_veryhigh_NW_2015
+acf_weights_NW_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_NW_2015,
+                                         low = acf_weights_low_NW_2015,
+                                         medium = acf_weights_medium_NW_2015,
+                                         high = acf_weights_high_NW_2015,
+                                         very_high = acf_weights_veryhigh_NW_2015
 ))
 
-acf_weights_SD_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_SD_2016,
-                                        low = acf_weights_low_SD_2016,
-                                        medium = acf_weights_medium_SD_2016,
-                                        high = acf_weights_high_SD_2016,
-                                        very_high = acf_weights_veryhigh_SD_2016
+acf_weights_SD_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_SD_2016,
+                                         low = acf_weights_low_SD_2016,
+                                         medium = acf_weights_medium_SD_2016,
+                                         high = acf_weights_high_SD_2016,
+                                         very_high = acf_weights_veryhigh_SD_2016
 ))
 
-acf_weights_SD_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_SD_2015,
-                                        low = acf_weights_low_SD_2015,
-                                        medium = acf_weights_medium_SD_2015,
-                                        high = acf_weights_high_SD_2015,
-                                        very_high = acf_weights_veryhigh_SD_2015
+acf_weights_SD_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_SD_2015,
+                                         low = acf_weights_low_SD_2015,
+                                         medium = acf_weights_medium_SD_2015,
+                                         high = acf_weights_high_SD_2015,
+                                         very_high = acf_weights_veryhigh_SD_2015
 ))
 
-acf_weights_SS_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_SS_2016,
-                                        low = acf_weights_low_SS_2016,
-                                        medium = acf_weights_medium_SS_2016,
-                                        high = acf_weights_high_SS_2016,
-                                        very_high = acf_weights_veryhigh_SS_2016
+acf_weights_SS_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_SS_2016,
+                                         low = acf_weights_low_SS_2016,
+                                         medium = acf_weights_medium_SS_2016,
+                                         high = acf_weights_high_SS_2016,
+                                         very_high = acf_weights_veryhigh_SS_2016
 ))
 
-acf_weights_SS_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_SS_2015,
-                                        low = acf_weights_low_SS_2015,
-                                        medium = acf_weights_medium_SS_2015,
-                                        high = acf_weights_high_SS_2015,
-                                        very_high = acf_weights_veryhigh_SS_2015
+acf_weights_SS_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_SS_2015,
+                                         low = acf_weights_low_SS_2015,
+                                         medium = acf_weights_medium_SS_2015,
+                                         high = acf_weights_high_SS_2015,
+                                         very_high = acf_weights_veryhigh_SS_2015
 ))
 
-acf_weights_SW_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_SW_2016,
-                                        low = acf_weights_low_SW_2016,
-                                        medium = acf_weights_medium_SW_2016,
-                                        high = acf_weights_high_SW_2016,
-                                        very_high = acf_weights_veryhigh_SW_2016
+acf_weights_SW_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_SW_2016,
+                                         low = acf_weights_low_SW_2016,
+                                         medium = acf_weights_medium_SW_2016,
+                                         high = acf_weights_high_SW_2016,
+                                         very_high = acf_weights_veryhigh_SW_2016
 ))
 
-acf_weights_SW_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_SW_2015,
-                                        low = acf_weights_low_SW_2015,
-                                        medium = acf_weights_medium_SW_2015,
-                                        high = acf_weights_high_SW_2015,
-                                        very_high = acf_weights_veryhigh_SW_2015
+acf_weights_SW_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_SW_2015,
+                                         low = acf_weights_low_SW_2015,
+                                         medium = acf_weights_medium_SW_2015,
+                                         high = acf_weights_high_SW_2015,
+                                         very_high = acf_weights_veryhigh_SW_2015
 ))
 
 
-acf_weights_WD_2016 <- data.frame(cbind(ne = acf_weights_nonemergency_WD_2016,
-                                        low = acf_weights_low_WD_2016,
-                                        medium = acf_weights_medium_WD_2016,
-                                        high = acf_weights_high_WD_2016,
-                                        very_high = acf_weights_veryhigh_WD_2016
+acf_weights_WD_2016i <- data.frame(cbind(ne = acf_weights_nonemergency_WD_2016,
+                                         low = acf_weights_low_WD_2016,
+                                         medium = acf_weights_medium_WD_2016,
+                                         high = acf_weights_high_WD_2016,
+                                         very_high = acf_weights_veryhigh_WD_2016
 ))
 
-acf_weights_WD_2015 <- data.frame(cbind(ne = acf_weights_nonemergency_WD_2015,
-                                        low = acf_weights_low_WD_2015,
-                                        medium = acf_weights_medium_WD_2015,
-                                        high = acf_weights_high_WD_2015,
-                                        very_high = acf_weights_veryhigh_WD_2015
+acf_weights_WD_2015i <- data.frame(cbind(ne = acf_weights_nonemergency_WD_2015,
+                                         low = acf_weights_low_WD_2015,
+                                         medium = acf_weights_medium_WD_2015,
+                                         high = acf_weights_high_WD_2015,
+                                         very_high = acf_weights_veryhigh_WD_2015
 ))
 
 stand_func <- function(x) {
@@ -160,70 +160,70 @@ stand_func <- function(x) {
 }
 
 acf_weights_CD_2015 <- as.data.frame(do.call(cbind, 
-                               map(acf_weights_CD_2015, stand_func)))
+                                             map(acf_weights_CD_2015i, stand_func)))
 
 acf_weights_CD_2016 <- as.data.frame(do.call(cbind, 
-                               map(acf_weights_CD_2016, stand_func)))
+                                             map(acf_weights_CD_2016i, stand_func)))
 
 acf_weights_CW_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_CW_2015, stand_func)))
+                                             map(acf_weights_CW_2015i, stand_func)))
 
 acf_weights_CW_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_CW_2016, stand_func)))
+                                             map(acf_weights_CW_2016i, stand_func)))
 
 acf_weights_ED_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_ED_2015, stand_func)))
+                                             map(acf_weights_ED_2015i, stand_func)))
 
 acf_weights_ED_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_ED_2016, stand_func)))
+                                             map(acf_weights_ED_2016i, stand_func)))
 
 acf_weights_ND_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_ND_2015, stand_func)))
+                                             map(acf_weights_ND_2015i, stand_func)))
 
 acf_weights_ND_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_ND_2016, stand_func)))
+                                             map(acf_weights_ND_2016i, stand_func)))
 
 acf_weights_NE_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_NE_2015, stand_func)))
+                                             map(acf_weights_NE_2015i, stand_func)))
 
 acf_weights_NE_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_NE_2016, stand_func)))
+                                             map(acf_weights_NE_2016i, stand_func)))
 
 acf_weights_NW_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_NW_2015, stand_func)))
+                                             map(acf_weights_NW_2015i, stand_func)))
 
 acf_weights_NW_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_NW_2016, stand_func)))
+                                             map(acf_weights_NW_2016i, stand_func)))
 
 acf_weights_SD_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SD_2015, stand_func)))
+                                             map(acf_weights_SD_2015i, stand_func)))
 
 acf_weights_SD_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SD_2016, stand_func)))
+                                             map(acf_weights_SD_2016i, stand_func)))
 
 acf_weights_SE_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SE_2015, stand_func)))
+                                             map(acf_weights_SE_2015i, stand_func)))
 
 acf_weights_SE_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SE_2016, stand_func)))
+                                             map(acf_weights_SE_2016i, stand_func)))
 
 acf_weights_SS_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SS_2015, stand_func)))
+                                             map(acf_weights_SS_2015i, stand_func)))
 
 acf_weights_SS_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SS_2016, stand_func)))
+                                             map(acf_weights_SS_2016i, stand_func)))
 
 acf_weights_SW_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SW_2015, stand_func)))
+                                             map(acf_weights_SW_2015i, stand_func)))
 
 acf_weights_SW_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_SW_2016, stand_func)))
+                                             map(acf_weights_SW_2016i, stand_func)))
 
 acf_weights_WD_2015 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_WD_2015, stand_func)))
+                                             map(acf_weights_WD_2015i, stand_func)))
 
 acf_weights_WD_2016 <- as.data.frame(do.call(cbind, 
-                                             map(acf_weights_WD_2016, stand_func)))
+                                             map(acf_weights_WD_2016i, stand_func)))
 
 
 
@@ -337,7 +337,7 @@ error_calculator <- function(a){
   l11 <- n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10 + n11
   l12 <- n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10 + n11 + n12
   l13 <- n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10 + n11 + n12 + n13
-
+  
   for (i in 1:13) {
     errors[i] <- mean((eval(parse(text = paste("l", i, sep = ""))) - a)^2)
   }
@@ -361,7 +361,17 @@ for (i in 1:13){
 CD_errors <- error_calculator(n_0_CD)
 
 ggplot(CD_errors, aes(x = CD_errors$lag, y = CD_errors$error)) +
-  geom_point()
+  geom_point(color = "Forest Green") + 
+  geom_point(aes(x = which.min(CD_errors$error), 
+                 y = min(CD_errors$e)), color = "Red") +
+  geom_line(color = "Light Blue") +
+  xlab("Number of Weeks Previous to Current") +
+  ylab("Prediction Errors") +
+  ggtitle("Optimal Error Rate Plot for District: CD") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  ggsave("CD_Error_Plot.png")
+  
 
 #### CW Errors #####
 
