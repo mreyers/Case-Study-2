@@ -95,7 +95,7 @@ ED_pred <- u1 + u2 + u3 + u4 + u5 + u6
 ED_pred
 
 # Actual Results
-ED_26_2015$y
+ED_26_2016$y
 
 # Mean Squared Error
 ED_pred_test <- mean((ED_pred - ED_26_2016$y)^2)
@@ -118,7 +118,7 @@ ND_pred <- u1 + u2 + u3 + u4 + u5 + u6
 ND_pred
 
 # Actual Results
-ND_26_2015$y
+ND_26_2016$y
 
 # Mean Squared Error
 ND_pred_test <- mean((ND_pred - ND_26_2016$y)^2)
@@ -141,7 +141,7 @@ NE_pred <- u1 + u2 + u3 + u4 + u5 + u6
 NE_pred
 
 # Actual Results
-NE_26_2015$y
+NE_26_2016$y
 
 # Mean Squared Error
 NE_pred_test <- mean((NE_pred - NE_26_2016$y)^2)
@@ -162,7 +162,7 @@ NW_pred <- u1 + u2 + u3 + u4
 NW_pred
 
 # Actual Results
-NW_26_2015$y
+NW_26_2016$y
 
 # Mean Squared Error
 NW_pred_test <- mean((NW_pred - NW_26_2016$y)^2)
@@ -184,7 +184,7 @@ SD_pred <- u1 + u2 + u3 + u4
 SD_pred
 
 # Actual Results
-SD_26_2015$y
+SD_26_2016$y
 
 # Mean Squared Error
 SD_pred_test <- mean((SD_pred - SD_26_2016$y)^2)
@@ -206,7 +206,7 @@ SE_pred <- u1 + u2 + u3 + u4 + u5
 SE_pred
 
 # Actual Results
-SE_26_2015$y
+SE_26_2016$y
 
 # Mean Squared Error
 SE_pred_test <- mean((SE_pred - SE_26_2016$y)^2)
@@ -227,7 +227,7 @@ SW_pred <- u1 + u2 + u3 + u4
 SW_pred
 
 # Actual Results
-SW_26_2015$y
+SW_26_2016$y
 
 # Mean Squared Error
 SW_pred_test <- mean((SW_pred - SW_26_2016$y)^2)
@@ -248,7 +248,7 @@ WD_pred <- u1 + u2 + u3 + u4
 sum(WD_pred)
 
 # Actual Results
-WD_26_2015$y
+WD_26_2016$y
 
 # Mean Squared Error
 WD_pred_test <- mean((WD_pred - WD_26_2016$y)^2)

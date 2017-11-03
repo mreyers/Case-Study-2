@@ -112,23 +112,51 @@ ggplot(data = wd_test_week19, aes(x = wd_test_week19$prior_num, y = wd_test_week
   geom_point(aes(x = spline_2_pred[1]$x, y = spline_2_pred[2]$y), color = "blue")
 
 
-test1 <- baltimore_edit %>% 
-  filter(District == "WD" & Year == 2015 & Priority == "Low") 
+test1 <- baltimore_edit2 %>% 
+  filter(District == "NE" & Year == 2016 & Priority == "Low")
+
+test1 <- test1[-(25:53),]
+
+test1 <- test1[seq(dim(test1)[1],1),]
 
 test2 <- baltimore_edit %>% 
-  filter(District == "WD" & Year == 2015 & Priority == "Medium") 
+  filter(District == "WD" & Year == 2016 & Priority == "Medium") 
 
-test3 <- baltimore_edit %>% 
-  filter(District == "WD" & Year == 2015 & Priority == "High") 
+test2 <- test2[-(25:53),]
 
-test4 <- baltimore_edit %>% 
-  filter(District == "WD" & Year == 2015 & Priority == "Very High") 
+test2 <- test2[seq(dim(test2)[1],1),]
 
-test5 <- baltimore_edit %>% 
-  filter(District == "WD" & Year == 2015 & Priority == "Non-Emergency") 
+test3 <- baltimore_edit2 %>% 
+  filter(District == "NE" & Year == 2016 & Priority == "High") 
+
+test3 <- test3[-(25:53),]
+
+test3 <- test3[seq(dim(test3)[1],1),]
+
+test4 <- baltimore_edit2 %>% 
+  filter(District == "NE" & Year == 2016 & Priority == "Very High") 
+
+test4 <- test4[-(25:53),]
+
+test4 <- test4[seq(dim(test4)[1],1),]
+
+test5 <- baltimore_edit2 %>% 
+  filter(District == "NE" & Year == 2016 & Priority == "Non-Emergency") 
+
+test5 <- test5[-(25:53),]
+
+test5 <- test5[seq(dim(test5)[1],1),]
+
+acf_test <- acf(test1$Proportion)
+acf_test2 <- acf(test2$Proportion, title("Autocorrelation Plot for District WD, Priority: Medium"))
+?acf
+
+acf_test3 <- acf(test3$Proportion)
+acf_test4 <- acf(test4$Proportion)
+acf_test5 <- acf(test5$Proportion)
 
 
-acf_test <- acf(test1$Proportion)$acf
+
 
 acf_test$acf
 

@@ -371,8 +371,19 @@ ggplot(CD_errors, aes(x = CD_errors$lag, y = CD_errors$error)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) + 
   ggsave("CD_Error_Plot.png")
-  
 
+plott <- ggplot(WD_errors, aes(x = WD_errors$lag, y = WD_errors$error)) +
+  geom_point(color = "Forest Green") + 
+  geom_point(aes(x = which.min(WD_errors$error), 
+                 y = min(WD_errors$e)), color = "Red") +
+  geom_line(color = "Light Blue") +
+  xlab("Number of Weeks Previous to Current") +
+  ylab("Prediction Errors") +
+  ggtitle("Optimal Error Rate Plot for District: WD") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plott
 #### CW Errors #####
 
 for (i in 1:13){
